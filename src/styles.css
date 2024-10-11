@@ -1,3 +1,353 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/*-----------------------------------------------------------------------------------
+    Note: This is Main Style Scss File.
+-----------------------------------------------------------------------------------
+	CSS INDEX
+	===================
+    01. Common
+    02. Header
+    03. Banner
+    04. Service
+    05. Feature
+    05. Portdoliod
+    07. Counter
+    08. Team
+    09. Testimonial
+    10. Call to action
+    11. Latest Post
+    12. About
+    13. Why Choose
+    14. Contact
+    15. Intro Video
+    16. Accordion
+    17. history
+    18. Brand
+    19. Page title
+    20. Shop
+    21. Blog
+    22. Pricing
+    23. Tile Gallery
+    24. Comming Soon
+    25. Privacy
+-----------------------------------------------------------------------------------*/
+/*=======  COMMON CSS  =======*/
+@import url("https://fonts.googleapis.com/css?family=Karla:400,400i,600,700,700i&display=swap");
+
+@font-face {
+	font-family: "GilroyBold";
+  src: url("./assets/fonts/GilroyBold.eot");
+  src: url("./assets/fonts/GilroyBold.eot") format("embedded-opentype"), url("./assets/fonts/GilroyBold.woff2") format("woff2"), url("./assets/fonts/GilroyBold.woff") format("woff"), url("./assets/fonts/GilroyBold.ttf") format("truetype"), url("./assets/fonts/GilroyBold.svg#GilroyBold") format("svg");
+}
+@font-face {
+	font-family: "Gotham Rounded";
+	/* font-family: "Gotham Rounded", sans-serif; */
+	/* font-family:  'Raleway', sans-serif; */
+  /* src: url("../fonts/Gotham Rounded.eot");*/
+  /* src: url("../fonts/Gotham Rounded.eot") format("embedded-opentype"), url("../fonts/Gotham Rounded.woff2") format("woff2"), url("../fonts/Gotham Rounded.woff") format("woff"), url("../fonts/Gotham Rounded.ttf") format("truetype"), url("../fonts/Gotham Rounded.svg#Gotham Rounded") format("svg");  */
+
+  src: url(./assets/fonts/GothamRounded-Light.otf);
+}
+
+@font-face {
+	font-family: "Gotham Rounded Bold";
+	/*font-family: "Gotham Rounded Bold";
+	/* font-family:  'Raleway', sans-serif; */
+  /* src: url("../fonts/Gotham Rounded.eot");*/
+  /* src: url("../fonts/Gotham Rounded.eot") format("embedded-opentype"), url("../fonts/Gotham Rounded.woff2") format("woff2"), url("../fonts/Gotham Rounded.woff") format("woff"), url("../fonts/Gotham Rounded.ttf") format("truetype"), url("../fonts/Gotham Rounded.svg#Gotham Rounded") format("svg");  */
+
+  	src: url(./assets/fonts/GothamRoundedBold_21016.ttf);
+}
+
+
+@font-face {
+	font-family: 'Inter';
+	src: url('/path/to/fonts/Inter-Regular.woff2') format('woff2'),
+		 url('/path/to/fonts/Inter-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+  }
+
+  *{
+	font-family:'Inter', sans-serif; ;
+}
+
+h3{
+	font-weight: 600;
+	font-size: 1.4rem;
+	font-family:'Inter', sans-serif; ;
+}
+
+h4{
+	font-weight: 800;
+	font-size: 1rem;
+	font-family:'Inter', sans-serif; ;
+}
+
+.CardHeader{
+	font-family: 'Inter', sans-serif;
+}
+li a{
+	/*font-family: "GilroyBold";*/
+		/*font-family: "Font Awesome 5 Pro";*/
+		font-family: 'Inter', sans-serif;
+
+
+	/* text-transform: capitalize; */
+}
+
+
+
+
+
+.header-navigation ul li {
+	display: inline-block;
+	line-height: 110px;
+	position: relative;
+}
+.header-navigation ul li a:hover {
+	color: rgb(3, 132, 214);
+}
+
+
+.header-navigation.breakpoint-on .site-nav-menu {
+    position: fixed;
+    top: 72px;
+    height: 100vh;
+    width: 300px;
+    padding: 30px 0px;
+    background-color: white;
+    z-index: 999;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    left: -300px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-out 0s;
+}
+
+.header-navigation.breakpoint-on .site-nav-menu  li {
+	margin: 0;
+	padding: 0;
+	display: block;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.header-navigation.breakpoint-on .site-nav-menu li a {
+	/* color: black; */
+	display: block;
+	font-family: "GilroyBold";
+	padding: 15px 25px 15px 0;
+	font-size: 15px;
+	line-height: 1;
+	margin: 0;
+	padding-left: 1.5rem;
+}
+
+.header-navigation .site-nav-menu  li a {
+	font-size: 18px;
+	/* color: #555; */
+	padding: 10px;
+	font-family: "GilroyBold";
+	text-transform: capitalize;
+	margin: 0 10px;
+}
+.header-navigation .primary-menu li a {
+	font-size: 18px;
+	/* color: #555; */
+	font-family: "GilroyBold";
+	text-transform: capitalize;
+}
+
+.header-navigation.breakpoint-on .primary-menu li a {
+	/* color: black; */
+	display: block;
+	font-size: 15px;
+	font-family: "GilroyBold";
+	line-height: 1;
+	margin: 0;
+}
+
+.header-navigation.breakpoint-on .site-nav-menu.menu-opened {
+	left: 0;
+	visibility: visible;
+	opacity: 1;
+	width: 100vh;
+}
+
+.header-navigation.breakpoint-on .nav-toggler {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+
+.header-navigation .offcanvas-icon,
+.header-navigation .nav-toggler {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.header-navigation .offcanvas-icon span,
+.header-navigation .nav-toggler span {
+	background-color: black;
+	height: 2px;
+	width: 100%;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 100%;
+	flex: 0 0 100%;
+	-webkit-transition: all 0.3s ease-out 0s;
+	-o-transition: all 0.3s ease-out 0s;
+	transition: all 0.3s ease-out 0s;
+	position: relative;
+}
+
+.header-navigation .nav-toggler {
+	display: none;
+}
+
+
+
+
+
+
+.header-navigation .offcanvas-icon,
+.header-navigation .nav-toggler {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.header-navigation .offcanvas-icon span,
+.header-navigation .nav-toggler span {
+	background-color: black;
+	height: 2px;
+	width: 100%;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 100%;
+	flex: 0 0 100%;
+	-webkit-transition: all 0.3s ease-out 0s;
+	-o-transition: all 0.3s ease-out 0s;
+	transition: all 0.3s ease-out 0s;
+	position: relative;
+}
+
+.header-navigation .nav-toggler {
+	display: none;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(1) {
+	-webkit-transform: rotate3d(0, 0, 1, 45deg);
+	transform: rotate3d(0, 0, 1, 45deg);
+	top: 8px;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(2) {
+	opacity: 0;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(3) {
+	-webkit-transform: rotate3d(0, 0, 1, -45deg);
+	transform: rotate3d(0, 0, 1, -45deg);
+	top: -8px;
+}
+
+.header-navigation .nav-close {
+	display: none;
+	font-size: 20px;
+	color: #fff;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	line-height: 1;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(1) {
+	-webkit-transform: rotate3d(0, 0, 1, 45deg);
+	transform: rotate3d(0, 0, 1, 45deg);
+	top: 8px;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(2) {
+	opacity: 0;
+}
+
+.header-navigation .nav-toggler.menu-opened span:nth-child(3) {
+	-webkit-transform: rotate3d(0, 0, 1, -45deg);
+	transform: rotate3d(0, 0, 1, -45deg);
+	top: -8px;
+}
+
+
+@media (min-width: 1024px) { /* Puedes ajustar el breakpoint según tus necesidades */
+	.margin-top-desktop {
+	  margin-top: 8px !important;
+	}
+  }
+
+:root {
+	--aisa-color-primary:3, 132, 214;
+	--color-primary:17, 83, 148;
+	--color-primary-title:43, 54, 89;  
+	--text-secondary:0, 0, 0;
+	--aisa-bg-main:254,247,255;
+	--background-base:rgb(254, 247, 255);
+    --foreground-divider:rgb(212, 211, 211);
+	--background-app-bar: rgb(17, 83, 148);
+  
+  }
+  
+
+
+
+
+
+
+
+
+  /* .p{
+    background: #2196F3;
+    border: 1px solid #2196F3;
+    color: white;
+    font-size: 13px; font-weight: 500;
+    font-stretch: 100%;
+    font-weight: 800;
+  } */
+
+
+
+  /* ::ng-deep .content-expansion > .mat-expansion-indicator:after {
+    color: black !important;
+  } */
+
+  .content-expansion{
+    border: 1px solid rgba(128, 128, 128, 0.7);
+    transition: margin 250ms ease-in-out 0s, box-shadow 250ms ease-in-out 0s, border-color 250ms ease-in-out 0s;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 10px 0px !important;
+    background-color: #F5F5F5 !important;
+  }
+
