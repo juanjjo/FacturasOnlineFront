@@ -36,6 +36,7 @@ export const GenerateInvoicePage = () => {
 
   const handleBackClick = () => {
     setStateForm(prevState => ({
+      ...prevState,
       state: stateForm.state - 1,
       next: false,
     }))
@@ -110,18 +111,18 @@ export const GenerateInvoicePage = () => {
           ) : stateForm.state === 2 ? (
             <FormAddProducts products={products} addProducts={addProducts} onDeleteProduct={onDeleteProduct} />
           ) : stateForm.state === 3 ? (
-            <VistaPrevia />
+            <VistaPrevia products={products} dataForm={stateForm.dataForm}/>
           ) : null}
         </div>
         <p className="flex justify-between mt-2 md:mt-4">
           <button className=" py-2 px-2  text-primary/60"
           >
             <span className="text-xl"
-              onClick={handleBackClick}>Volver</span>
+              onClick={handleBackClick}>Anterior</span>
           </button>
           <button className=" py-2 px-2 text-primary"
             onClick={handleNextClick}>
-            <span className="text-xl">Siguiente</span>
+            <span className="text-xl">{stateForm.state == 3 ? 'Guardar' : 'Siguiente'}</span>
           </button>
         </p>
       </div>
