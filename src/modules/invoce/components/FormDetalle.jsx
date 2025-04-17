@@ -3,23 +3,25 @@ import { TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Controller, useForm } from 'react-hook-form'
+
 // import { DatePicker } from "antd";
 import dayjs from 'dayjs'; // Importa dayjs
 
 import Divider from '@mui/material/Divider';
 // steper
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import 'animate.css';
 
 export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
-    const [date, setDate] = React.useState(dayjs());
 
 
     const {
         register,
         handleSubmit,
         setValue,
+        reset,
+        control,
         formState: { errors, isValid }, // Incluye isValid
     } = useForm();
 
@@ -33,14 +35,31 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
 
     useEffect(() => {
         console.log(stateForm);
-        if(stateForm.next == true && stateForm.state == 1){
+        if (stateForm.next == true && stateForm.state == 1) {
+            console.log("entro aqui por que");
             const result = handleSubmit(onSubmit)();
+            console.log(result);
+            console.log(isValid);
             if (result && !isValid) {
                 console.log("Errores de validación:", errors);
-                onFormValidationChange({ next: false, stateForm: '1' });
+               // onFormValidationChange({ next: false, stateForm: '1' });                       
+            }
+        } else {
+            console.log("por dios entro aqui");
+            if (stateForm.next == false && stateForm.state == 1 && Object.keys(stateForm.dataForm).length > 0) {
+                console.log("hoo lishit");
+                const dataParsed = {
+                    ...stateForm.dataForm,
+                    fecha: stateForm.dataForm.fecha ? dayjs(stateForm.dataForm.fecha) : null
+                };
+                console.log(dataParsed);
+                reset(dataParsed);
+            }else{
+                //onFormValidationChange({ next: false, stateForm: '1' });
             }
         }
-    }, [stateForm,setValue]);
+        //reset(stateForm.dataForm);
+    }, [stateForm, setValue]);
 
 
 
@@ -62,33 +81,33 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
                     <form >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Selecciona una fecha"
-                                    value={date}
-                                    onChange={handleChange}
-                                    sx={{
-                                        width: '100%',
-                                        marginTop: '8px',
-                                        '& .MuiOutlinedInput-root': {
-                                            height: '50px',
-                                        },
-                                    }}
-
+                                <Controller
+                                    control={control}
+                                    name='fecha'
+                                    render={({ field, fieldState }) => (
+                                        <DatePicker
+                                            label="Selecciona una fecha"
+                                            value={field.value}
+                                            onChange={(newValue) => {
+                                                field.onChange(newValue);
+                                            }}
+                                            slotProps={{
+                                                textField: {
+                                                    error: !!fieldState.error,
+                                                    helperText: fieldState.error?.message,
+                                                    sx: {
+                                                        width: '100%',
+                                                        marginTop: '8px',
+                                                        '& .MuiOutlinedInput-root': {
+                                                            height: '50px',
+                                                        },
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    )}
                                 />
                             </LocalizationProvider>
-                            <TextField
-                                label="Folio"
-                                {...register("folio", { required: "El folio es obligatorio" })}
-                                sx={{
-                                    width: '100%',
-                                    '& .MuiInputBase-input': {
-                                        height: '1em',
-                                    },
-                                }}
-                                className="margin-top-desktop"
-                                error={!!errors.folio}
-                                helperText={errors.folio?.message}
-                            />
                             <TextField id="outlined-basic" label="Email" variant="outlined"
                                 {...register("email", { required: "El email es obligatorio" })}
                                 sx={{
@@ -97,19 +116,32 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
                                         height: '1em',
                                     },
                                 }}
+                                className="margin-top-desktop"
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
                             />
-                            <TextField id="outlined-basic" label="Nombre cliente" variant="outlined"
-                                {...register("cliente", { required: 'EL cliente es obligatorio' })}
+                            <TextField
+                                label="Apellido"
+                                {...register("apellido", { required: "El folio es obligatorio" })}
                                 sx={{
                                     width: '100%',
                                     '& .MuiInputBase-input': {
                                         height: '1em',
                                     },
                                 }}
-                                error={!!errors.cliente}
-                                helperText={errors.cliente?.message}
+                                error={!!errors.apellido}
+                                helperText={errors.apellido?.message}
+                            />
+                            <TextField id="outlined-basic" label="Nombre cliente" variant="outlined"
+                                {...register("nombre", { required: 'EL nombre es obligatorio' })}
+                                sx={{
+                                    width: '100%',
+                                    '& .MuiInputBase-input': {
+                                        height: '1em',
+                                    },
+                                }}
+                                error={!!errors.nombre}
+                                helperText={errors.nombre?.message}
                             />
                             <TextField id="outlined-basic" label="Descripción" variant="outlined"
                                 {...register("descripcion", { required: 'La descripción es obligatoria' })}

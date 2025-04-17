@@ -6,7 +6,7 @@ import { faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FormDetalle } from "../components/FormDetalle";
 import { FormAddProducts } from "../components/FormAddProducts";
 import { VistaPrevia } from "../components/VistaPrevia";
-
+import { saveInvoice } from "../services/InvoiceServices";
 
 
 export const GenerateInvoicePage = () => {
@@ -30,6 +30,27 @@ export const GenerateInvoicePage = () => {
           state: 3,
           next: true    // parametro para avisar al formulario hijo que queremos avanzar
         }));
+      }else{
+        if( stateForm.state  == 3 && stateForm.next == true){
+          
+          const data = {
+            ...stateForm.dataForm,
+            products: products
+          };
+          saveInvoice(data)
+          .then(res => {
+            console.log("Factura guardada con éxito", res);
+            setStateForm({
+              dataForm: {},
+              state: 1,
+              next: false
+            });
+            // Aquí podrías mostrar un mensaje, redirigir, etc.
+          })
+          .catch(err => {
+            console.error("Error al guardar la factura", err);
+          });
+        }
       }
     }
   };
@@ -89,22 +110,40 @@ export const GenerateInvoicePage = () => {
         </div>
 
         <ol className="flex items-center mt-4 mb-4 sm:mb-5 w-3/4 md:mt-8">
-          <li className="flex w-full items-center text-primary  after:content-[''] after:w-full after:h-1 after:border-b after:border-b after:border-4 after:inline-block after:border-primary">
-            <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full   shrink-0">
-              <span className="text-white">1</span>
-            </div>
-          </li>
-          <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-300">
-            <div className="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full   shrink-0">
-              2
-            </div>
-          </li>
-          <li className="flex items-center w-full">
-            <div className="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full   shrink-0">
-              3
-            </div>
-          </li>
-        </ol>
+  {/* Paso 1 */}
+  <li className="flex w-full items-center group">
+    <div className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 transition-colors duration-500 
+      ${stateForm.state >= 1 ? 'bg-primary text-white' : 'bg-gray-300 text-gray-500'}`}>
+      1
+    </div>
+
+    {/* Línea 1-2 */}
+    <div className={`flex-1 h-1 transition-all duration-500 mx-2 
+      ${stateForm.state >= 2 ? 'bg-primary w-full' : 'bg-gray-200 w-0'}`}>
+    </div>
+  </li>
+
+  {/* Paso 2 */}
+  <li className="flex w-full items-center group">
+    <div className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 transition-colors duration-500 
+      ${stateForm.state >= 2 ? 'bg-primary text-white' : 'bg-gray-300 text-gray-500'}`}>
+      2
+    </div>
+
+    {/* Línea 2-3 */}
+    <div className={`flex-1 h-1 transition-all duration-500 mx-2 
+      ${stateForm.state === 3 ? 'bg-primary w-full' : 'bg-gray-200 w-0'}`}>
+    </div>
+  </li>
+
+  {/* Paso 3 */}
+  <li className="flex items-center w-full">
+    <div className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 transition-colors duration-500 
+      ${stateForm.state === 3 ? 'bg-primary text-white' : 'bg-gray-300 text-gray-500'}`}>
+      3
+    </div>
+  </li>
+</ol>
         <div>
           {stateForm.state === 1 ? (
             <FormDetalle stateForm={stateForm} onFormValidationChange={handleFormValidationChange} />
@@ -116,7 +155,7 @@ export const GenerateInvoicePage = () => {
         </div>
         <p className="flex justify-between mt-2 md:mt-4">
           <button className=" py-2 px-2  text-primary/60"
-          >
+          disabled={stateForm.state <= 1}>
             <span className="text-xl"
               onClick={handleBackClick}>Anterior</span>
           </button>

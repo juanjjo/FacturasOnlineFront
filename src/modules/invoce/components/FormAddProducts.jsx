@@ -120,7 +120,10 @@ export const FormAddProducts = ({ products, addProducts, onDeleteProduct }) => {
             Productos
           </h3>
           <div className="block lg:hidden">
-            <CardProductos></CardProductos>
+            <CardProductos products={products}
+            onDeleteProduct={onDeleteProduct}>
+
+            </CardProductos>
           </div>
                           
           {products.length === 0 ? (

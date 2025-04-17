@@ -16,10 +16,10 @@ export const VistaPrevia = ({products,dataForm}) => {
         <div className=' p-4 rounded-lg mt-6 bg-[#f3f4f6]' >
           <ul>
             <li>
-              <span className='font-bold'>folio:</span> {dataForm.folio}
+              <span className='font-bold'>Nombre:</span> {dataForm.nombre}
             </li>
             <li>
-              <span className='font-bold'>Cliente:</span> {dataForm.cliente}
+              <span className='font-bold'>Apellido:</span> {dataForm.apellido}
             </li>
             <li>
               <span className='font-bold'>Email:</span>  {dataForm.email}
