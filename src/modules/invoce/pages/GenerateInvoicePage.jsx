@@ -1,6 +1,6 @@
 
 // steper
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FormDetalle } from "../components/FormDetalle";
@@ -9,8 +9,12 @@ import { VistaPrevia } from "../components/VistaPrevia";
 import { saveInvoice } from "../services/InvoiceServices";
 
 
-export const GenerateInvoicePage = () => {
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
+import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
 
+export const GenerateInvoicePage = () => {
+  const toast = useRef(null);
   const [stateForm, setStateForm] = useState({ state: 1, next: false, dataForm: {} });
   const [invoiceState, setInvoice] = useState({ state: 1 });
 
@@ -24,34 +28,44 @@ export const GenerateInvoicePage = () => {
         next: true    // parametro para avisar al formulario hijo que queremos avanzar
       }));
     } else {
-      if (stateForm.state == 2 && products.length > 0 && stateForm.next == false) {
+      if(stateForm.state == 1 && stateForm.next == true){
         setStateForm(prevState => ({
           ...prevState, // Mantenemos las propiedades previas
-          state: 3,
+          state: 2,
           next: true    // parametro para avisar al formulario hijo que queremos avanzar
         }));
       }else{
-        if( stateForm.state  == 3 && stateForm.next == true){
-          
-          const data = {
-            ...stateForm.dataForm,
-            products: products
-          };
-          saveInvoice(data)
-          .then(res => {
-            console.log("Factura guardada con éxito", res);
-            setStateForm({
-              dataForm: {},
-              state: 1,
-              next: false
+        if (stateForm.state == 2 && products.length > 0 && stateForm.next == false) {
+          setStateForm(prevState => ({
+            ...prevState, // Mantenemos las propiedades previas
+            state: 3,
+            next: true    // parametro para avisar al formulario hijo que queremos avanzar
+          }));
+        }else{
+          if( stateForm.state  == 3 && stateForm.next == true){
+            
+            const data = {
+              ...stateForm.dataForm,
+              products: products
+            };
+            saveInvoice(data)
+            .then(res => {
+              console.log("Factura guardada con éxito", res);
+              confirm1();
+              setStateForm({
+                dataForm: {},
+                state: 1,
+                next: false
+              });
+              // Aquí podrías mostrar un mensaje, redirigir, etc.
+            })
+            .catch(err => {
+              console.error("Error al guardar la factura", err);
             });
-            // Aquí podrías mostrar un mensaje, redirigir, etc.
-          })
-          .catch(err => {
-            console.error("Error al guardar la factura", err);
-          });
+          }
         }
       }
+
     }
   };
 
@@ -98,8 +112,19 @@ export const GenerateInvoicePage = () => {
     setProducts(updatedProducts); // Actualiza la lista de productos sin el producto eliminado
   };
 
+
+  const confirm1 = () => {
+    toast.current.show({
+      severity: 'success',
+      summary: 'Éxito',
+      detail: 'Factura guardada con éxito',
+      life: 3000
+    });
+  };
+  
   return (
     <>
+     <Toast ref={toast} />
       <div className="flex-col  justify-center  max-w-3xl md:w-full lg:mt-2">
         <div className="flex items-center justify-center">
           <span className="w-12 h-12 rounded-full text-primary ltr:mr-4 rtl:ml-4 flex items-center justify-center bg-primary/10">
@@ -165,6 +190,7 @@ export const GenerateInvoicePage = () => {
           </button>
         </p>
       </div>
+     
     </>
   )
 }

@@ -36,7 +36,7 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
     useEffect(() => {
         console.log(stateForm);
         if (stateForm.next == true && stateForm.state == 1) {
-            console.log("entro aqui por que");
+            console.log(stateForm);
             const result = handleSubmit(onSubmit)();
             console.log(result);
             console.log(isValid);
@@ -45,8 +45,10 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
                // onFormValidationChange({ next: false, stateForm: '1' });                       
             }
         } else {
+            console.log(stateForm);
             console.log("por dios entro aqui");
             if (stateForm.next == false && stateForm.state == 1 && Object.keys(stateForm.dataForm).length > 0) {
+                console.log(stateForm);
                 console.log("hoo lishit");
                 const dataParsed = {
                     ...stateForm.dataForm,
@@ -55,6 +57,7 @@ export const FormDetalle = ({ stateForm, onFormValidationChange }) => {
                 console.log(dataParsed);
                 reset(dataParsed);
             }else{
+                console.log(stateForm);
                 //onFormValidationChange({ next: false, stateForm: '1' });
             }
         }
